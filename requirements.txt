@@ -1,0 +1,6 @@
+pyside6
+uvicorn
+fastapi
+starlette
+python-dotenv
+requests
