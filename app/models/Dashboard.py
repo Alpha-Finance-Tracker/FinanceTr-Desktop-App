@@ -24,7 +24,7 @@ class Dashboard(QMainWindow):
         # Create and add sections
         self.header = Header()
         self.content = Content()
-        self.sidebar = Sidebar(self.content)
+        self.sidebar = Sidebar(self.content,self._token)
         self.footer = Footer()
 
         # Add widgets to grid layout
