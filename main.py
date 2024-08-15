@@ -10,12 +10,12 @@ from app.models.register_expenditures import CircleWidget, ExpenditureDetail
 app = QApplication(sys.argv)
 
 
-login_widget = LoginWidget()
-login_widget.show()
+# login_widget = LoginWidget()
+# login_widget.show()
+# app.exec()
+# token = login_widget.token
+#
+# if token:
+main_window = Dashboard(None)
+main_window.show()
 app.exec()
-token = login_widget.token
-
-if token:
-    main_window = Dashboard(token)
-    main_window.show()
-    app.exec()
