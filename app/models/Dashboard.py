@@ -1,10 +1,9 @@
-import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QGridLayout, QWidget
+from PySide6.QtWidgets import QMainWindow, QGridLayout, QWidget
 
-from app.models.content import Content
+from app.models.content.content import Content
 from app.models.footer import Footer
 from app.models.header import Header
-from app.models.sidebar import Sidebar
+from app.models.sidebar.sidebar import Sidebar
 
 
 class Dashboard(QMainWindow):
