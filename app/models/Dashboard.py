@@ -11,7 +11,7 @@ class Dashboard(QMainWindow):
     def __init__(self,token):
         self._token = token
         super().__init__()
-        self.setWindowTitle("Dashboard")
+        self.setWindowTitle("FinanceTr")
         self.resize(1000, 800)
 
 

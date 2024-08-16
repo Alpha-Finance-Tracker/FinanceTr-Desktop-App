@@ -9,7 +9,6 @@ from app.models.register_expenditures import CircleWidget, ExpenditureDetail
 
 app = QApplication(sys.argv)
 
-
 login_widget = LoginWidget()
 login_widget.show()
 app.exec()
