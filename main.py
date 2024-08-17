@@ -1,11 +1,9 @@
 import sys
 
-from PySide6.QtWidgets import QWidget, QMainWindow, QVBoxLayout, QStackedWidget, QApplication
+from PySide6.QtWidgets import QApplication
 
-from app.models.Dashboard import Dashboard
-from app.models.Main_window_model import MainWindow
-from app.models.login_model import LoginWidget
-from app.models.register_expenditures import CircleWidget, ExpenditureDetail
+from app.models.dashboard.Dashboard import Dashboard
+from app.models.login.login_model import LoginWidget
 
 app = QApplication(sys.argv)
 

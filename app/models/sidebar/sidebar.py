@@ -1,4 +1,5 @@
-
+from PySide6.QtCore import QSize
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import  QWidget, QVBoxLayout, QPushButton, QFrame
 class Sidebar(QWidget):
     def __init__(self, content_area, token):
@@ -11,27 +12,33 @@ class Sidebar(QWidget):
         layout = QVBoxLayout()
 
         self.sidebar_frame = QFrame()
-        self.sidebar_frame.setStyleSheet("background-color: #f0f0f0; border: 1px solid #ccc;")
+        self.sidebar_frame.setStyleSheet("background-color: #f0f0f0; border: none")
         frame_layout = QVBoxLayout(self.sidebar_frame)
 
         buttons = [
-            ("Expenditures", self.expenditures_on_click),
-            ("K-receipts", None),
-            ("FinanceTr", self.financeTR_on_click),
-            ("Profile", None),
-            ("Logout", None),
+            ('home.png',self.home_on_click),
+            ("analytics.PNG", self.expenditures_on_click),
+            # ("K-receipts", None),
+            ("financeTr.jpg", self.financeTR_on_click),
+            # ("Profile", None),
+            # ("Logout", None),
         ]
 
-        for name, handler in buttons:
-            button = QPushButton(name)
+        for icon_path, handler in buttons:
+            button = QPushButton()
+            button.setIcon(QIcon(icon_path))
+            button.setIconSize(QSize(32, 32))  # Adjust size as needed
             button.clicked.connect(handler)
             frame_layout.addWidget(button)
 
         layout.addWidget(self.sidebar_frame)
         self.setLayout(layout)
 
-    def expenditures_on_click(self,token):
-        self.content_area.show_expenditures(self._token)
+    def home_on_click(self):
+        self.content_area.show_home()
+
+    def expenditures_on_click(self):
+        self.content_area.show_expenditures()
 
     def financeTR_on_click(self):
-        self.content_area.show_financeTR(self._token)
+        self.content_area.show_financeTR()

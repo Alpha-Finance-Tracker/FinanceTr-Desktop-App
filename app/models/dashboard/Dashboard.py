@@ -1,14 +1,14 @@
 from PySide6.QtWidgets import QMainWindow, QGridLayout, QWidget
 
 from app.models.content.content import Content
-from app.models.footer import Footer
-from app.models.header import Header
+from app.models.footer.footer import Footer
+from app.models.header.header import Header
 from app.models.sidebar.sidebar import Sidebar
 
 
 class Dashboard(QMainWindow):
     def __init__(self,token):
-        self._token = token
+        self.token = token
         super().__init__()
         self.setWindowTitle("FinanceTr")
         self.resize(1000, 800)
@@ -22,8 +22,8 @@ class Dashboard(QMainWindow):
 
         # Create and add sections
         self.header = Header()
-        self.content = Content()
-        self.sidebar = Sidebar(self.content,self._token)
+        self.content = Content(self.token)
+        self.sidebar = Sidebar(self.content,self.token)
         self.footer = Footer()
 
         # Add widgets to grid layout
@@ -36,6 +36,7 @@ class Dashboard(QMainWindow):
         self.grid_layout.setRowStretch(1, 1)  # Make the main content area expand
         self.grid_layout.setColumnStretch(1, 2)  # Make the content column expand more than the sidebar
 
-    @property
-    def token(self):
-        return self._token
+        self.start_home()
+
+    def start_home(self):
+        self.content.show_home()

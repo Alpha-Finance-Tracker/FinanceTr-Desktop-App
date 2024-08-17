@@ -11,7 +11,8 @@ load_dotenv()
 finance_service = os.getenv('FINANCE_SERVICE')
 
 class ExpendituresContent(QWidget):
-    def __init__(self):
+    def __init__(self,token):
+        self.token = token
         super().__init__()
         self.init_ui()
 
@@ -38,8 +39,8 @@ class ExpendituresContent(QWidget):
         if isinstance(chart3, QChart):
             self.chart_view_3.setChart(chart3)
 
-    def expenditures_handler(self, token):
-        data = {'token': token}
+    def expenditures_handler(self):
+        data = {'token': self.token}
         categories_url = f"{finance_service}/Finance_tracker/category_expenditures"
         foods_url = f"{finance_service}/Finance_tracker/food_type_expenditures"
         foods_names_url = f"{finance_service}/Finance_tracker/food_name_expenditures"
