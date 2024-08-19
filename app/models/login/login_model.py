@@ -63,7 +63,7 @@ class LoginWidget(QWidget):
 
     def load_background_image(self):
         """Load and set the background image."""
-        image_path = 'login_background.jpg'
+        image_path = 'images/login/login_background.jpg'
         if os.path.isfile(image_path):
             pixmap = QPixmap(image_path)
             scaled_pixmap = pixmap.scaled(self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)

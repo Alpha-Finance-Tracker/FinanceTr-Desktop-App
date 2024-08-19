@@ -16,11 +16,10 @@ class Sidebar(QWidget):
         frame_layout = QVBoxLayout(self.sidebar_frame)
 
         buttons = [
-            ('home.png',self.home_on_click),
-            ("analytics.PNG", self.expenditures_on_click),
-            # ("K-receipts", None),
-            ("financeTr.jpg", self.financeTR_on_click),
-            # ("Profile", None),
+            ('images/sidebar/home.png',self.home_on_click),
+            ("images/sidebar/analytics.PNG", self.expenditures_on_click),
+            ("images/sidebar/financeTr.png", self.financeTR_on_click),
+            ("images/sidebar/financeTr.png", self.shopping_receipts_on_click),
             # ("Logout", None),
         ]
 
@@ -42,3 +41,6 @@ class Sidebar(QWidget):
 
     def financeTR_on_click(self):
         self.content_area.show_financeTR()
+
+    def shopping_receipts_on_click(self):
+        self.content_area.show_receipt_menu()

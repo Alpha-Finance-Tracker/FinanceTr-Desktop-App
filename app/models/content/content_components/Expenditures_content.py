@@ -8,7 +8,7 @@ from PySide6.QtCore import Qt
 from dotenv import load_dotenv
 
 load_dotenv()
-finance_service = os.getenv('FINANCE_SERVICE')
+finance_service = os.getenv('FINANCE_TR_SERVICE')
 
 class ExpendituresContent(QWidget):
     def __init__(self,token):

@@ -7,7 +7,7 @@ class Header(QWidget):
 
     def init_ui(self):
         layout = QVBoxLayout()
-        self.label = QLabel("Dashboard Header")
-        self.label.setStyleSheet("background-color: lightblue; font-size: 18px; padding: 10px;")
+        self.label = QLabel()
+        self.label.setStyleSheet("background-color: lightgreen; font-size: 18px; padding: 10px;")
         layout.addWidget(self.label)
         self.setLayout(layout)

@@ -7,7 +7,7 @@ class Footer(QWidget):
 
     def init_ui(self):
         layout = QVBoxLayout()
-        self.label = QLabel("Footer")
-        self.label.setStyleSheet("background-color: lightblue; font-size: 16px; padding: 10px;")
+        self.label = QLabel()
+        self.label.setStyleSheet("background-color: lightgreen; font-size: 16px; padding: 10px;")
         layout.addWidget(self.label)
         self.setLayout(layout)

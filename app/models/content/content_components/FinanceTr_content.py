@@ -7,7 +7,7 @@ import requests
 from dotenv import load_dotenv
 
 load_dotenv()
-finance_service = os.getenv('FINANCE_SERVICE')
+finance_service = os.getenv('FINANCE_TR_SERVICE')
 
 class FinanceTrContent(QWidget):
     def __init__(self, token):
@@ -34,20 +34,23 @@ class FinanceTrContent(QWidget):
         self.category_buttons = {}
         self.type_buttons = {}
 
-        # Example categories
-        self.add_category_button('Food', 'images/food.png')
-        self.add_category_button('Transport', 'images/transportation.png')
-        self.add_category_button('Health', 'images/health.jpg')
-        self.add_category_button('Entertainment', 'images/entertainment.png')
-        self.add_category_button('Home', 'images/home.png')
-        self.add_category_button('Sport', 'images/sport.jpg')
+        self.add_category_button('Food', 'images/categories/food.png')
+        self.add_category_button('Transport', 'images/categories/transportation.png')
+        self.add_category_button('Health', 'images/categories/health.png')
+        self.add_category_button('Entertainment', 'images/categories/entertainment.png')
+        self.add_category_button('Home', 'images/categories/home.jpg')
+        self.add_category_button('Sport', 'images/categories/sport.png')
 
-        # Example types
+
         self.add_type_button('Animal', 'images/types/food/animal.jpg', categories=['Food'])
         self.add_type_button('Dairy', 'images/types/food/dairy.png', categories=['Food'])
         self.add_type_button('Nuts', 'images/types/food/nuts.png', categories=['Food'])
         self.add_type_button('Vegetables', 'images/types/food/vegetables.png', categories=['Food'])
         self.add_type_button('Beverages', 'images/types/food/beverages.png', categories=['Food'])
+
+        self.add_type_button('Communications', 'images/types/home/communications.jpg', categories=['Home'])
+        self.add_type_button('Electricity', 'images/types/home/electricity.png', categories=['Home'])
+        self.add_type_button('Water', 'images/types/home/water.png', categories=['Home'])
 
         form_layout.addRow('Name:', self.name_input)
         form_layout.addRow('Price:', self.price_input)

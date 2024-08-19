@@ -4,6 +4,7 @@ from PySide6.QtCharts import QChartView, QChart
 from app.models.content.content_components.Expenditures_content import ExpendituresContent
 from app.models.content.content_components.FinanceTr_content import FinanceTrContent
 from app.models.content.content_components.Home_content import Home
+from app.models.content.content_components.Receipts_content import ReceiptsContent
 
 
 class Content(QStackedWidget):
@@ -13,17 +14,17 @@ class Content(QStackedWidget):
         self.home_content = Home()
         self.finance_tr_content = FinanceTrContent(self.token)
         self.expenditures_content = ExpendituresContent(self.token)
+        self.receipts_content = ReceiptsContent(self.token)
 
         self.addWidget(self.expenditures_content)
         self.addWidget(self.finance_tr_content)
         self.addWidget(self.home_content)
+        self.addWidget(self.receipts_content)
 
 
     def show_expenditures(self):
         self.expenditures_content.expenditures_handler()
         self.setCurrentIndex(0)
-
-
 
     def show_financeTR(self):
         self.setCurrentIndex(1)
@@ -32,6 +33,8 @@ class Content(QStackedWidget):
     def show_home(self):
         self.setCurrentIndex(2)
 
+    def show_receipt_menu(self):
+        self.setCurrentIndex(3)
 
     #
     #     def show_settings(self):

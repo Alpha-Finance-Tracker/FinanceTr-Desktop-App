@@ -35,7 +35,6 @@ class Dashboard(QMainWindow):
         # Adjust row and column stretch factors
         self.grid_layout.setRowStretch(1, 1)  # Make the main content area expand
         self.grid_layout.setColumnStretch(1, 2)  # Make the content column expand more than the sidebar
-
         self.start_home()
 
     def start_home(self):
