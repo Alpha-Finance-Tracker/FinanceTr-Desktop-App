@@ -1,3 +1,4 @@
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QGridLayout, QWidget
 
 from app.models.content.content import Content
@@ -11,6 +12,7 @@ class Dashboard(QMainWindow):
         self.token = token
         super().__init__()
         self.setWindowTitle("FinanceTr")
+        self.setWindowIcon(QIcon('images/app_icon.png'))
         self.resize(1000, 800)
 
 
