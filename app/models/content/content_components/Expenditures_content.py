@@ -25,14 +25,19 @@ class ExpendituresContent(QWidget):
         self.Quarter = QPushButton("Quarter")
         self.Year = QPushButton('Year')
         self.Total = QPushButton('Total')
-        self.Monthly.clicked.connect()
-        # self.button.clicked.connect(self.on_button_clicked)
+
+        self.Monthly.clicked.connect(self.on_Monthly_clicked())
+        self.Weekly.clicked.connect(self.on_Weekly_clicked())
+        self.Quarter.clicked.connect(self.on_Quarter_clicked())
+        self.Year.clicked.connect(self.on_Year_clicked())
+        self.Total.clicked.connect(self.on_Total_clicked())
 
         self.category_chart = QChartView()
         self.type_chart = QChartView()
         self.name_chart = QChartView()
 
         charts_layout = QVBoxLayout()
+
         charts_layout.addWidget(self.category_chart)
         charts_layout.addWidget(self.type_chart)
         charts_layout.addWidget(self.name_chart)
@@ -125,16 +130,51 @@ class ExpendituresContent(QWidget):
         return chart
 
     def on_Monthly_clicked(self):
-        pass
+        token = retrieve_token()
+        try:
+            self.request_Category_Expenditures(token)
+            self.request_Type_Expenditures(token)
+            self.request_Name_Expenditures(token)
+
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
 
     def on_Weekly_clicked(self):
-        pass
+        token = retrieve_token()
+        try:
+            self.request_Category_Expenditures(token)
+            self.request_Type_Expenditures(token)
+            self.request_Name_Expenditures(token)
+
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
 
     def on_Quarter_clicked(self):
-        pass
+        token = retrieve_token()
+        try:
+            self.request_Category_Expenditures(token)
+            self.request_Type_Expenditures(token)
+            self.request_Name_Expenditures(token)
+
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
 
     def on_Year_clicked(self):
-        pass
+        token = retrieve_token()
+        try:
+            self.request_Category_Expenditures(token)
+            self.request_Type_Expenditures(token)
+            self.request_Name_Expenditures(token)
+
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
 
     def on_Total_clicked(self):
-        pass
+        token = retrieve_token()
+        try:
+            self.request_Category_Expenditures(token)
+            self.request_Type_Expenditures(token)
+            self.request_Name_Expenditures(token)
+
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
