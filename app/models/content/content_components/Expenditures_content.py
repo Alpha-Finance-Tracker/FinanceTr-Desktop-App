@@ -1,5 +1,5 @@
 from PySide6.QtCharts import QChartView
-from PySide6.QtWidgets import QWidget, QVBoxLayout
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton
 import os
 
 import requests
@@ -12,6 +12,7 @@ from app.utils.auth_service import retrieve_token
 load_dotenv()
 finance_service = os.getenv('FINANCE_TR_SERVICE')
 
+
 class ExpendituresContent(QWidget):
     def __init__(self):
         super().__init__()
@@ -19,57 +20,101 @@ class ExpendituresContent(QWidget):
 
     def init_ui(self):
         layout = QVBoxLayout()
+        self.Monthly = QPushButton("Monthly")
+        self.Weekly = QPushButton("Weekly")
+        self.Quarter = QPushButton("Quarter")
+        self.Year = QPushButton('Year')
+        self.Total = QPushButton('Total')
+        self.Monthly.clicked.connect()
+        # self.button.clicked.connect(self.on_button_clicked)
 
-        self.chart_view_1 = QChartView()
-        self.chart_view_2 = QChartView()
-        self.chart_view_3 = QChartView()
+        self.category_chart = QChartView()
+        self.type_chart = QChartView()
+        self.name_chart = QChartView()
 
         charts_layout = QVBoxLayout()
-        charts_layout.addWidget(self.chart_view_1)
-        charts_layout.addWidget(self.chart_view_2)
-        charts_layout.addWidget(self.chart_view_3)
+        charts_layout.addWidget(self.category_chart)
+        charts_layout.addWidget(self.type_chart)
+        charts_layout.addWidget(self.name_chart)
+        charts_layout.addWidget(self.Monthly)
+        charts_layout.addWidget(self.Weekly)
+        charts_layout.addWidget(self.Quarter)
+        charts_layout.addWidget(self.Year)
+        charts_layout.addWidget(self.Total)
 
         layout.addLayout(charts_layout)
         self.setLayout(layout)
 
-    def setExpendituresContent(self, chart1, chart2, chart3):
-        if isinstance(chart1, QChart):
-            self.chart_view_1.setChart(chart1)
-        if isinstance(chart2, QChart):
-            self.chart_view_2.setChart(chart2)
-        if isinstance(chart3, QChart):
-            self.chart_view_3.setChart(chart3)
+    def setCategoryExpenditureContent(self, chart):
+        if isinstance(chart, QChart):
+            self.category_chart.setChart(chart)
 
-    def expenditures_handler(self):
-        headers = {'Authorization': f'Bearer {retrieve_token()}'}
+    def setTypeExpenditureContent(self, chart):
+        if isinstance(chart, QChart):
+            self.type_chart.setChart(chart)
+
+    def setNameExpenditureContent(self, chart):
+        if isinstance(chart, QChart):
+            self.name_chart.setChart(chart)
+
+    def request_Category_Expenditures(self, token, interval=None):
+        headers = {'Authorization': f'Bearer {token}'}
         categories_url = f"{finance_service}/Finance_tracker/category_expenditures"
-        foods_url = f"{finance_service}/Finance_tracker/food_type_expenditures"
-        foods_names_url = f"{finance_service}/Finance_tracker/food_name_expenditures"
-
         try:
             categories_response = requests.get(categories_url, headers=headers)
-            foods_response = requests.get(foods_url, headers=headers)
-            foods_names_response = requests.get(foods_names_url, headers=headers)
-
-            if categories_response.status_code == 200 and foods_response.status_code == 200 and foods_names_response.status_code == 200:
+            if categories_response.status_code == 200:
                 categories_chart = self.expenditures_pie_chart(categories_response.json(), 'By Category')
-                food_chart = self.expenditures_pie_chart(foods_response.json(), 'By Type')
-                food_name_chart = self.expenditures_pie_chart(foods_names_response.json(), 'By Name')
-                self.setExpendituresContent(categories_chart, food_chart, food_name_chart)
+                self.setCategoryExpenditureContent(categories_chart)
             else:
-                print(f"Failed to load data. Categories status: {categories_response.status_code}, Foods status: {foods_response.status_code}")
-
-
+                print(
+                    f"Failed to load data. Categories status: {categories_response.status_code}")
         except requests.RequestException as e:
             print(f"An error occurred: {str(e)}")
 
+    def request_Type_Expenditures(self, token, interval=None):
+        headers = {'Authorization': f'Bearer {token}'}
+        type_expenditures = f"{finance_service}/Finance_tracker/food_type_expenditures"
+        try:
+            foods_response = requests.get(type_expenditures, headers=headers)
+            if foods_response.status_code == 200:
+                types_chart = self.expenditures_pie_chart(foods_response.json(), 'By Type')
+                self.setTypeExpenditureContent(types_chart)
+            else:
+                print(
+                    f"Failed to load data. Categories status: {foods_response.status_code}")
+        except requests.RequestException as e:
+            print(f"An error occurred: {str(e)}")
 
-    def expenditures_pie_chart(self,data, title):
+    def request_Name_Expenditures(self, token, interval=None):
+        headers = {'Authorization': f'Bearer {token}'}
+        names = f"{finance_service}/Finance_tracker/food_name_expenditures"
+        try:
+            names_response = requests.get(names, headers=headers)
+            if names_response.status_code == 200:
+                names_chart = self.expenditures_pie_chart(names_response.json(), 'By Name')
+                self.setNameExpenditureContent(names_chart)
+            else:
+                print(
+                    f"Failed to load data. Categories status: {names_response.status_code}")
+        except requests.RequestException as e:
+            print(f"An error occurred: {str(e)}")
+
+    def expenditures_handler(self):
+        token = retrieve_token()
+        try:
+            self.request_Category_Expenditures(token)
+            self.request_Type_Expenditures(token)
+            self.request_Name_Expenditures(token)
+
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
+
+    def expenditures_pie_chart(self, data, title):
         chart_pie = QPieSeries()
 
         for k, v in data.items():
-            slice = chart_pie.append(k, v)
-            slice.setLabel(f'{k}: {v}BGN')
+            chart_slice = chart_pie.append(k, v)
+            chart_slice.setLabel(f'{k}: {v}BGN')
 
         chart = QChart()
         chart.addSeries(chart_pie)
@@ -78,3 +123,18 @@ class ExpendituresContent(QWidget):
         chart.legend().setVisible(True)
 
         return chart
+
+    def on_Monthly_clicked(self):
+        pass
+
+    def on_Weekly_clicked(self):
+        pass
+
+    def on_Quarter_clicked(self):
+        pass
+
+    def on_Year_clicked(self):
+        pass
+
+    def on_Total_clicked(self):
+        pass

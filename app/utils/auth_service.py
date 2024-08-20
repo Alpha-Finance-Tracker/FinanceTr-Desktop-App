@@ -7,18 +7,27 @@ import win32cred
 from dotenv import load_dotenv
 from jose import jwt, JWTError
 load_dotenv()
+import requests
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 ALGORITHM = os.getenv('ALGORITHM')
+login_service = os.getenv('LOGIN_SERVICE')
 
 
 def verify_token(token: str):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        exp = payload.get('exp')
-        if exp is None or datetime.fromtimestamp(exp) < datetime.now():
-            raise
-        return payload
+
+        if datetime.fromtimestamp(payload.get('exp')) < datetime.now():
+
+            headers = {'Authorization': f'Bearer {token}'}
+            new_token = requests.get(f"{login_service}/login",headers=headers)
+
+
+            save_token(new_token)
+            return new_token
+
+        return token
     except JWTError:
         raise ValueError('Invalid Token')
 
@@ -48,7 +57,7 @@ def retrieve_token():
         cred = win32cred.CredRead('FinanceTr_Access_token', win32cred.CRED_TYPE_GENERIC)
         token = cred['CredentialBlob'].decode('utf-16').rstrip('\x00')
         print("Token retrieved successfully.")
-        return token
+        return verify_token(token)
     except Exception as e:
         print(f"Failed to retrieve token: {e}")
         return None
