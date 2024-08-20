@@ -26,9 +26,6 @@ class ReceiptsContent(QWidget):
         pass
 
 
-
-
-
     def on_resize(self, event):
         self.background_label.setGeometry(0, 0, self.width(), self.height())
         event.accept()

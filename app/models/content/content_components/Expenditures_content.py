@@ -41,15 +41,15 @@ class ExpendituresContent(QWidget):
             self.chart_view_3.setChart(chart3)
 
     def expenditures_handler(self):
-        data = {'token': retrieve_token()}
+        headers = {'Authorization': f'Bearer {retrieve_token()}'}
         categories_url = f"{finance_service}/Finance_tracker/category_expenditures"
         foods_url = f"{finance_service}/Finance_tracker/food_type_expenditures"
         foods_names_url = f"{finance_service}/Finance_tracker/food_name_expenditures"
 
         try:
-            categories_response = requests.get(categories_url, params=data)
-            foods_response = requests.get(foods_url, params=data)
-            foods_names_response = requests.get(foods_names_url, params=data)
+            categories_response = requests.get(categories_url, headers=headers)
+            foods_response = requests.get(foods_url, headers=headers)
+            foods_names_response = requests.get(foods_names_url, headers=headers)
 
             if categories_response.status_code == 200 and foods_response.status_code == 200 and foods_names_response.status_code == 200:
                 categories_chart = self.expenditures_pie_chart(categories_response.json(), 'By Category')
@@ -57,11 +57,11 @@ class ExpendituresContent(QWidget):
                 food_name_chart = self.expenditures_pie_chart(foods_names_response.json(), 'By Name')
                 self.setExpendituresContent(categories_chart, food_chart, food_name_chart)
             else:
-                error_message = f"Failed to load data. Categories status: {categories_response.status_code}, Foods status: {foods_response.status_code}"
+                print(f"Failed to load data. Categories status: {categories_response.status_code}, Foods status: {foods_response.status_code}")
 
 
         except requests.RequestException as e:
-            error_message = f"An error occurred: {str(e)}"
+            print(f"An error occurred: {str(e)}")
 
 
     def expenditures_pie_chart(self,data, title):

@@ -28,7 +28,6 @@ class Content(QStackedWidget):
     def show_financeTR(self):
         self.setCurrentIndex(1)
 
-
     def show_home(self):
         self.setCurrentIndex(2)
 

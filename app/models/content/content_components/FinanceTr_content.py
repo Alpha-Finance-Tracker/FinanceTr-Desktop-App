@@ -120,8 +120,8 @@ class FinanceTrContent(QWidget):
 
     def submit_data(self):
         update_url = f"{finance_service}/Finance_tracker/update"
+        headers = {'Authorization': f'Bearer {retrieve_token()}'}
         data = {
-            'token': retrieve_token(),
             'name': self.name_input.text(),
             'price': self.price_input.text(),
             'category': self.selected_category,
@@ -129,7 +129,7 @@ class FinanceTrContent(QWidget):
             'date': self.date_input.selectedDate().toString('dd.MM.yyyy')
         }
 
-        update_response = requests.put(update_url, params=data)
+        update_response = requests.put(update_url,headers=headers,params=data)
         if update_response.status_code == 200:
             self.name_input.clear()
             self.price_input.clear()
