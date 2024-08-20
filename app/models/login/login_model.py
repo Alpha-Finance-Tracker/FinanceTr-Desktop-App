@@ -6,6 +6,7 @@ from PySide6.QtCore import Qt
 import os
 import requests
 from dotenv import load_dotenv
+from app.utils.auth_service import save_token
 
 load_dotenv()
 login_service = os.getenv('LOGIN_SERVICE')
@@ -14,6 +15,7 @@ login_service = os.getenv('LOGIN_SERVICE')
 class LoginWidget(QWidget):
     def __init__(self):
         super().__init__()
+        self.logged = None
         self.setWindowTitle("Login")
 
         # Initialize background label
@@ -90,19 +92,12 @@ class LoginWidget(QWidget):
         data = {'username': username, 'password': password}
         try:
             result = requests.post(f"{login_service}/login", data=data)
-            if result.status_code == 201:
-                info = result.json()
-                self.token = info['access_token']
+            if result.status_code == 200:
+                save_token(result.json()['access_token'])
+                self.logged = True
                 self.close()
             else:
                 QMessageBox.warning(self, "Login", "Invalid username or password.")
         except requests.RequestException as e:
             QMessageBox.critical(self, "Login", f"An error occurred: {e}")
 
-    @property
-    def token(self):
-        return self._token
-
-    @token.setter
-    def token(self, user_token):
-        self._token = user_token

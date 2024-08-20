@@ -2,10 +2,9 @@ from PySide6.QtCore import QSize
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import  QWidget, QVBoxLayout, QPushButton, QFrame
 class Sidebar(QWidget):
-    def __init__(self, content_area, token):
+    def __init__(self, content_area):
         super().__init__()
         self.content_area = content_area
-        self._token = token
         self.init_ui()
 
     def init_ui(self):

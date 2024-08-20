@@ -8,13 +8,12 @@ from app.models.content.content_components.Receipts_content import ReceiptsConte
 
 
 class Content(QStackedWidget):
-    def __init__(self,token):
+    def __init__(self):
         super().__init__()
-        self.token = token
         self.home_content = Home()
-        self.finance_tr_content = FinanceTrContent(self.token)
-        self.expenditures_content = ExpendituresContent(self.token)
-        self.receipts_content = ReceiptsContent(self.token)
+        self.finance_tr_content = FinanceTrContent()
+        self.expenditures_content = ExpendituresContent()
+        self.receipts_content = ReceiptsContent()
 
         self.addWidget(self.expenditures_content)
         self.addWidget(self.finance_tr_content)

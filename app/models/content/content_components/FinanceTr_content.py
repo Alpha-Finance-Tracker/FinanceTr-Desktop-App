@@ -6,12 +6,13 @@ from PySide6.QtGui import QIcon
 import requests
 from dotenv import load_dotenv
 
+from app.utils.auth_service import retrieve_token
+
 load_dotenv()
 finance_service = os.getenv('FINANCE_TR_SERVICE')
 
 class FinanceTrContent(QWidget):
-    def __init__(self, token):
-        self.token = token
+    def __init__(self):
         super().__init__()
         self.init_ui()
 
@@ -120,7 +121,7 @@ class FinanceTrContent(QWidget):
     def submit_data(self):
         update_url = f"{finance_service}/Finance_tracker/update"
         data = {
-            'token': self.token,
+            'token': retrieve_token(),
             'name': self.name_input.text(),
             'price': self.price_input.text(),
             'category': self.selected_category,

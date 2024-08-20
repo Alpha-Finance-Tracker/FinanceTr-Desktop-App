@@ -12,9 +12,9 @@ app.setWindowIcon(QIcon("images/app_icon.png"))
 login_widget = LoginWidget()
 login_widget.show()
 app.exec()
-token = login_widget.token
 
-if token:
-    main_window = Dashboard(token)
+
+if login_widget.logged == True:
+    main_window = Dashboard()
     main_window.show()
     app.exec()

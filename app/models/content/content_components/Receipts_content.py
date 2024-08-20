@@ -4,9 +4,8 @@ from PySide6.QtCore import Qt
 
 
 class ReceiptsContent(QWidget):
-    def __init__(self,token):
+    def __init__(self):
         super().__init__()
-        self.token = token
         self.init_ui()
 
     def init_ui(self):

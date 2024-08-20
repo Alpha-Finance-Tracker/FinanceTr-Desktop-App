@@ -8,8 +8,7 @@ from app.models.sidebar.sidebar import Sidebar
 
 
 class Dashboard(QMainWindow):
-    def __init__(self,token):
-        self.token = token
+    def __init__(self):
         super().__init__()
         self.setWindowTitle("FinanceTr")
         self.setWindowIcon(QIcon('images/app_icon.png'))
@@ -24,8 +23,8 @@ class Dashboard(QMainWindow):
 
         # Create and add sections
         self.header = Header()
-        self.content = Content(self.token)
-        self.sidebar = Sidebar(self.content,self.token)
+        self.content = Content()
+        self.sidebar = Sidebar(self.content)
         self.footer = Footer()
 
         # Add widgets to grid layout

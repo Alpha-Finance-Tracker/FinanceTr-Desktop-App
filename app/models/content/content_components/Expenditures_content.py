@@ -7,12 +7,13 @@ from PySide6.QtCharts import QChart, QPieSeries
 from PySide6.QtCore import Qt
 from dotenv import load_dotenv
 
+from app.utils.auth_service import retrieve_token
+
 load_dotenv()
 finance_service = os.getenv('FINANCE_TR_SERVICE')
 
 class ExpendituresContent(QWidget):
-    def __init__(self,token):
-        self.token = token
+    def __init__(self):
         super().__init__()
         self.init_ui()
 
@@ -40,7 +41,7 @@ class ExpendituresContent(QWidget):
             self.chart_view_3.setChart(chart3)
 
     def expenditures_handler(self):
-        data = {'token': self.token}
+        data = {'token': retrieve_token()}
         categories_url = f"{finance_service}/Finance_tracker/category_expenditures"
         foods_url = f"{finance_service}/Finance_tracker/food_type_expenditures"
         foods_names_url = f"{finance_service}/Finance_tracker/food_name_expenditures"
