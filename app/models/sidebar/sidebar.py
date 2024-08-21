@@ -18,7 +18,8 @@ class Sidebar(QWidget):
             ('images/sidebar/home.png',self.home_on_click),
             ("images/sidebar/analytics.PNG", self.expenditures_on_click),
             ("images/sidebar/financeTr.png", self.financeTR_on_click),
-            ("images/sidebar/receipts.png", self.shopping_receipts_on_click),
+            ("images/sidebar/kaufland_logo.png", self.shopping_receipts_on_click),
+            ("images/sidebar/lidl_logo.png", self.shopping_receipts_on_click),
             # ("Logout", None),
         ]
 

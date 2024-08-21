@@ -6,7 +6,7 @@ from PySide6.QtGui import QIcon
 import requests
 from dotenv import load_dotenv
 
-from app.utils.auth_service import retrieve_token
+from app.utils.auth_service import retrieve_token, prepare_token_for_request
 
 load_dotenv()
 finance_service = os.getenv('FINANCE_TR_SERVICE')
@@ -119,8 +119,9 @@ class FinanceTrContent(QWidget):
                 button_info['button'].hide()
 
     def submit_data(self):
+        token = prepare_token_for_request()
         update_url = f"{finance_service}/Finance_tracker/update"
-        headers = {'Authorization': f'Bearer {retrieve_token()}'}
+        headers = {'Authorization': f'Bearer {token}'}
         data = {
             'name': self.name_input.text(),
             'price': self.price_input.text(),

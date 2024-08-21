@@ -15,21 +15,12 @@ login_service = os.getenv('LOGIN_SERVICE')
 
 
 def verify_token(token: str):
-    try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        if datetime.fromtimestamp(payload.get('exp')) > datetime.now():
+            return token
+        else:
+            return 'Expired'
 
-        if datetime.fromtimestamp(payload.get('exp')) < datetime.now():
-
-            headers = {'Authorization': f'Bearer {token}'}
-            new_token = requests.get(f"{login_service}/login",headers=headers)
-
-
-            save_token(new_token)
-            return new_token
-
-        return token
-    except JWTError:
-        raise ValueError('Invalid Token')
 
 def save_token(token):
     cred = {
@@ -61,3 +52,17 @@ def retrieve_token():
     except Exception as e:
         print(f"Failed to retrieve token: {e}")
         return None
+
+def refresh_token(token):
+    headers = {'Authorization': f'Bearer {token}'}
+    new_token = requests.get(f"{login_service}/login", headers=headers)
+
+    save_token(new_token)
+    return new_token
+
+def prepare_token_for_request():
+    retrieved_token = retrieve_token()
+    print(retrieved_token)
+    check = verify_token(retrieved_token)
+    print(check)
+    return check if check != 'Expired' else refresh_token(retrieved_token)
