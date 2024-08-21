@@ -6,6 +6,7 @@ from PySide6.QtCore import Qt
 import os
 import requests
 from dotenv import load_dotenv
+
 from app.utils.auth_service import save_token
 
 load_dotenv()
@@ -93,7 +94,8 @@ class LoginWidget(QWidget):
         try:
             result = requests.post(f"{login_service}/login", data=data)
             if result.status_code == 200:
-                save_token(result.json()['access_token'])
+                save_token(result.json()['access_token'],'FinanceTr_Access_token')
+                save_token(result.json()['refresh_token'],'FinanceTr_Refresh_token')
                 self.logged = True
                 self.close()
             else:
