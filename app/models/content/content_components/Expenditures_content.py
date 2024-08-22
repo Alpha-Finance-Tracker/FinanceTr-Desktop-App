@@ -1,5 +1,5 @@
 from PySide6.QtCharts import QChartView
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QComboBox
 import os
 
 import requests
@@ -28,6 +28,7 @@ class ExpendituresContent(QWidget):
         self.category_chart = QChartView()
         self.type_chart = QChartView()
         self.name_chart = QChartView()
+        self.combo_box = QComboBox()
 
         self.Monthly.clicked.connect(self.on_Monthly_clicked)
         self.Weekly.clicked.connect(self.on_Weekly_clicked)
@@ -39,6 +40,7 @@ class ExpendituresContent(QWidget):
         charts_layout.addWidget(self.category_chart)
         charts_layout.addWidget(self.type_chart)
         charts_layout.addWidget(self.name_chart)
+        charts_layout.addWidget(self.combo_box)
         charts_layout.addWidget(self.Monthly)
         charts_layout.addWidget(self.Weekly)
         charts_layout.addWidget(self.Quarter)
@@ -114,6 +116,25 @@ class ExpendituresContent(QWidget):
             print(f"An error occurred: {str(e)}")
 
     def expenditures_pie_chart(self, data, title):
+        if title == "By Name":
+            chart_pie = QPieSeries()
+
+            for k, v in data.items():
+                chart_slice = chart_pie.append(k, v)
+                chart_slice.setLabel(f'{k}: {v}BGN')
+
+            chart = QChart()
+            chart.addSeries(chart_pie)
+            chart.setTitle(title)
+            chart.legend().setAlignment(Qt.AlignBottom)
+            chart.legend().setVisible(True)
+
+            self.combo_box.addItems([f"{k}: {v}BGN" for k, v in data.items()])
+            self.combo_box.setMaxVisibleItems(1000)  # Set max visible items before scroll
+            self.combo_box.setMinimumWidth(200)  # Adjust width as necessary
+            return chart
+
+
         chart_pie = QPieSeries()
 
         for k, v in data.items():

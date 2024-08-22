@@ -7,8 +7,6 @@ from datetime import datetime, timedelta
 import logging
 
 
-
-# Load environment variables
 load_dotenv()
 
 # Set up logging
@@ -85,7 +83,6 @@ def retrieve_token(target_name):
         return None
 
 
-
 def prepare_token_for_request():
     retrieved_token = retrieve_token('FinanceTr_Access_token')
     access_token_validity = verify_access_token(retrieved_token)
@@ -109,12 +106,13 @@ def refresh_access_token(token):
     headers = {'Authorization': f'Bearer {token}'}
     new_token = requests.get(f"{LOGIN_SERVICE}/login", headers=headers)
 
-    save_token(new_token,'FinanceTr_Access_token')
+    save_token(new_token, 'FinanceTr_Access_token')
     return new_token
+
 
 def refresh_refresh_token(token):
     headers = {'Authorization': f'Bearer {token}'}
     new_token = requests.get(f"{LOGIN_SERVICE}/login", headers=headers)
 
-    save_token(new_token,'FinanceTr_Refresh_token')
+    save_token(new_token, 'FinanceTr_Refresh_token')
     return new_token
