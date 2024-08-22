@@ -68,6 +68,7 @@ class ExpendituresContent(QWidget):
             categories_response = requests.get(categories_url,params=data, headers=headers)
             if categories_response.status_code == 200:
                 categories_chart = self.expenditures_pie_chart(categories_response.json(), 'By Category')
+                print(categories_response.json())
                 self.setCategoryExpenditureContent(categories_chart)
             else:
                 print(
@@ -128,6 +129,7 @@ class ExpendituresContent(QWidget):
             chart.setTitle(title)
             chart.legend().setAlignment(Qt.AlignBottom)
             chart.legend().setVisible(True)
+
 
             self.combo_box.addItems([f"{k}: {v}BGN" for k, v in data.items()])
             self.combo_box.setMaxVisibleItems(1000)  # Set max visible items before scroll

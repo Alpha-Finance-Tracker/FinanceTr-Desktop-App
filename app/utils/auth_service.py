@@ -94,25 +94,24 @@ def prepare_token_for_request():
         refresh_token_validity = verify_refresh_token(refresh_token)
 
         if refresh_token_validity == 'Expires':
-            new_refresh_token = refresh_token(refresh_token, 'FinanceTr_Refresh_token')
+            new_refresh_token = refresh_refresh_token(refresh_token)
         else:
             new_refresh_token = refresh_token
-
-        new_access_token = refresh_token(new_refresh_token, 'FinanceTr_Access_token')
-        return new_access_token
+        new_access_token = refresh_access_token(new_refresh_token)
+        return new_access_token.json()
 
 
 def refresh_access_token(token):
     headers = {'Authorization': f'Bearer {token}'}
-    new_token = requests.get(f"{LOGIN_SERVICE}/login", headers=headers)
+    new_token = requests.get(f"{LOGIN_SERVICE}/refresh_access_token", headers=headers)
 
-    save_token(new_token, 'FinanceTr_Access_token')
+    save_token(new_token.json(), 'FinanceTr_Access_token')
     return new_token
 
 
 def refresh_refresh_token(token):
     headers = {'Authorization': f'Bearer {token}'}
-    new_token = requests.get(f"{LOGIN_SERVICE}/login", headers=headers)
+    new_token = requests.get(f"{LOGIN_SERVICE}/refresh_refresh_token", headers=headers)
 
-    save_token(new_token, 'FinanceTr_Refresh_token')
+    save_token(new_token.json(), 'FinanceTr_Refresh_token')
     return new_token

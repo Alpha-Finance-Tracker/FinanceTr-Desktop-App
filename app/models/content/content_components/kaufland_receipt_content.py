@@ -11,7 +11,7 @@ load_dotenv()
 finance_service = os.getenv('FINANCE_TR_SERVICE')
 
 
-class ReceiptsContent(QWidget):
+class KauflandReceiptsContent(QWidget):
     def __init__(self):
         super().__init__()
         self.init_ui()
@@ -62,7 +62,7 @@ class ReceiptsContent(QWidget):
             return
 
         token = prepare_token_for_request()
-        update_url = f"{finance_service}/Finance_tracker/receipt"
+        update_url = f"{finance_service}/Finance_tracker/kaufland_receipt"
         headers = {'Authorization': f'Bearer {token}'}
 
         # Hide the calendar widget and show the loading icon
