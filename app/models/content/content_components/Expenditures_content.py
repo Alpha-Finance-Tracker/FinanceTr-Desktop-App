@@ -127,8 +127,8 @@ class ExpendituresContent(QWidget):
             chart.legend().setVisible(True)
 
             self.combo_box.addItems([f"{k}: {v}BGN" for k, v in data.items()])
-            self.combo_box.setMaxVisibleItems(1000)  # Set max visible items before scroll
-            self.combo_box.setMinimumWidth(200)  # Adjust width as necessary
+            self.combo_box.setMaxVisibleItems(1000)
+            self.combo_box.setMinimumWidth(200)
             return chart
 
         chart_pie = QPieSeries()

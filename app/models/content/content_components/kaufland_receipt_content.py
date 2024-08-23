@@ -31,13 +31,13 @@ class KauflandReceiptsContent(QWidget):
         self.date_input.setSelectedDate(QDate.currentDate())
         self.loading_label.setMovie(self.loading_movie)
         self.loading_label.setAlignment(Qt.AlignCenter)
-        self.loading_label.hide()  # Initially hide the loading icon
+        self.loading_label.hide()
 
         self.layout.addWidget(self.upload_button)
         self.layout.addWidget(self.date_input)
         self.layout.addWidget(self.submit_button)
         self.layout.addWidget(self.label)
-        self.layout.addWidget(self.loading_label)  # Add loading label to layout
+        self.layout.addWidget(self.loading_label)
 
         self.upload_button.clicked.connect(self.upload_file)
         self.submit_button.clicked.connect(self.on_submit_clicked)

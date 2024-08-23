@@ -58,14 +58,13 @@ class FinanceTrContent(QWidget):
         form_layout.addRow('Price:', self.price_input)
         form_layout.addRow('Date:', self.date_input)
 
-        # Adding Category buttons
         category_layout = QHBoxLayout()
         category_layout.addWidget(self.category_label)
         for button in self.category_buttons.values():
             category_layout.addWidget(button)
         form_layout.addRow(category_layout)
 
-        # Adding Type buttons
+
         self.type_layout.addWidget(self.type_label)
         form_layout.addRow(self.type_layout)
 

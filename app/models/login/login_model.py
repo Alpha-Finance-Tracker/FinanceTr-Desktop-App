@@ -19,16 +19,15 @@ class LoginWidget(QWidget):
         self.logged = None
         self.setWindowTitle("Login")
 
-        # Initialize background label
         self.background_label = QLabel(self)
         self.load_background_image()
 
-        # Initialize overlay widget
+
         self.overlay_widget = QWidget(self)
         self.overlay_widget.setStyleSheet("background: transparent;")
         self.overlay_layout = QVBoxLayout(self.overlay_widget)
 
-        # Create widgets
+
         self.username_label = QLabel("Username:", self.overlay_widget)
         self.password_label = QLabel("Password:", self.overlay_widget)
         self.login_button = QPushButton("Login", self.overlay_widget)
@@ -36,20 +35,20 @@ class LoginWidget(QWidget):
         self.username_input = QLineEdit(self.overlay_widget)
         self.username_label.setStyleSheet("color: #ADD8E6;")
         self.username_input.setStyleSheet("color: #ADD8E6;")
-        self.username_input.setFixedWidth(200)  # Set fixed width for username input
+        self.username_input.setFixedWidth(200)
 
         self.password_input = QLineEdit(self.overlay_widget)
         self.password_label.setStyleSheet("color: #ADD8E6;")
         self.password_input.setStyleSheet("color: #ADD8E6;")
-        self.password_input.setFixedWidth(200)  # Set fixed width for password input
-        self.password_input.setEchoMode(QLineEdit.Password)  # Hide password characters
+        self.password_input.setFixedWidth(200)
+        self.password_input.setEchoMode(QLineEdit.Password)
 
         self.login_button = QPushButton("Login", self.overlay_widget)
         self.login_button.setStyleSheet("color: #ADD8E6;")
 
-        # Add widgets to the overlay layout
+
         self.overlay_layout.addSpacerItem(
-            QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding))  # Spacer to push content down
+            QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding))
         self.overlay_layout.addWidget(self.username_label)
         self.overlay_layout.addWidget(self.username_input)
         self.overlay_layout.addWidget(self.password_label)
@@ -58,29 +57,29 @@ class LoginWidget(QWidget):
 
         self.overlay_layout.setAlignment(Qt.AlignCenter)
 
-        # Connect the button click event
+
         self.login_button.clicked.connect(self.login)
 
     def load_background_image(self):
-        """Load and set the background image."""
+
         image_path = 'images/login/login_background.jpg'
         if os.path.isfile(image_path):
             pixmap = QPixmap(image_path)
             scaled_pixmap = pixmap.scaled(self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
             self.background_label.setPixmap(scaled_pixmap)
             self.background_label.setAlignment(Qt.AlignCenter)
-            self.background_label.setGeometry(self.rect())  # Ensure it covers the full screen
+            self.background_label.setGeometry(self.rect())
         else:
             print(f"Error: File '{image_path}' not found.")
 
     def resizeEvent(self, event):
-        """Reposition and resize the background image and overlay widget when the window is resized."""
+
         super().resizeEvent(event)
         if self.background_label.pixmap():
             scaled_pixmap = self.background_label.pixmap().scaled(self.size(), Qt.KeepAspectRatioByExpanding,
                                                                   Qt.SmoothTransformation)
             self.background_label.setPixmap(scaled_pixmap)
-        self.background_label.setGeometry(self.rect())  # Ensure it covers the full screen
+        self.background_label.setGeometry(self.rect())
         self.overlay_widget.resize(self.size())
 
     def login(self):

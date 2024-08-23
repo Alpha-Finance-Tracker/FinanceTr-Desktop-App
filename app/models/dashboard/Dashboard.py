@@ -20,21 +20,21 @@ class Dashboard(QMainWindow):
         self.grid_layout = QGridLayout(self.central_widget)
         self.central_widget.setLayout(self.grid_layout)
 
-        # Create and add sections
+
         self.header = Header()
         self.content = Content()
         self.sidebar = Sidebar(self.content)
         self.footer = Footer()
 
-        # Add widgets to grid layout
+
         self.grid_layout.addWidget(self.header, 0, 0, 1, 2)  # Header spans 2 columns
         self.grid_layout.addWidget(self.sidebar, 1, 0)  # Sidebar in first column
         self.grid_layout.addWidget(self.content, 1, 1)  # Content in second column
         self.grid_layout.addWidget(self.footer, 2, 0, 1, 2)  # Footer spans 2 columns
 
         # Adjust row and column stretch factors
-        self.grid_layout.setRowStretch(1, 1)  # Make the main content area expand
-        self.grid_layout.setColumnStretch(1, 2)  # Make the content column expand more than the sidebar
+        self.grid_layout.setRowStretch(1, 1)
+        self.grid_layout.setColumnStretch(1, 2)
         self.start_home()
 
     def start_home(self):

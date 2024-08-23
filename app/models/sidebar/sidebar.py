@@ -28,7 +28,7 @@ class Sidebar(QWidget):
         for icon_path, handler in buttons:
             button = QPushButton()
             button.setIcon(QIcon(icon_path))
-            button.setIconSize(QSize(32, 32))  # Adjust size as needed
+            button.setIconSize(QSize(32, 32))
             button.clicked.connect(handler)
             frame_layout.addWidget(button)
 
