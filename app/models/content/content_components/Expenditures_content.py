@@ -7,7 +7,7 @@ from PySide6.QtCharts import QChart, QPieSeries
 from PySide6.QtCore import Qt
 from dotenv import load_dotenv
 
-from app.utils.auth_service import retrieve_token, prepare_token_for_request
+from app.utils.auth_service import  prepare_token_for_request
 
 load_dotenv()
 finance_service = os.getenv('FINANCE_TR_SERVICE')
@@ -34,7 +34,6 @@ class ExpendituresContent(QWidget):
         self.Weekly.clicked.connect(self.on_Weekly_clicked)
         self.Quarter.clicked.connect(self.on_Quarter_clicked)
         self.Year.clicked.connect(self.on_Year_clicked)
-
 
         charts_layout = QVBoxLayout()
         charts_layout.addWidget(self.category_chart)
@@ -63,9 +62,9 @@ class ExpendituresContent(QWidget):
     def request_Category_Expenditures(self, token, interval='Total'):
         headers = {'Authorization': f'Bearer {token}'}
         categories_url = f"{finance_service}/Finance_tracker/category_expenditures"
-        data = {'interval':interval}
+        data = {'interval': interval}
         try:
-            categories_response = requests.get(categories_url,params=data, headers=headers)
+            categories_response = requests.get(categories_url, params=data, headers=headers)
             if categories_response.status_code == 200:
                 categories_chart = self.expenditures_pie_chart(categories_response.json(), 'By Category')
                 print(categories_response.json())
@@ -81,7 +80,7 @@ class ExpendituresContent(QWidget):
         type_expenditures = f"{finance_service}/Finance_tracker/food_type_expenditures"
         data = {'interval': interval}
         try:
-            foods_response = requests.get(type_expenditures,params=data, headers=headers)
+            foods_response = requests.get(type_expenditures, params=data, headers=headers)
             if foods_response.status_code == 200:
                 types_chart = self.expenditures_pie_chart(foods_response.json(), 'By Type')
                 self.setTypeExpenditureContent(types_chart)
@@ -96,7 +95,7 @@ class ExpendituresContent(QWidget):
         names = f"{finance_service}/Finance_tracker/food_name_expenditures"
         data = {'interval': interval}
         try:
-            names_response = requests.get(names,params=data, headers=headers)
+            names_response = requests.get(names, params=data, headers=headers)
             if names_response.status_code == 200:
                 names_chart = self.expenditures_pie_chart(names_response.json(), 'By Name')
                 self.setNameExpenditureContent(names_chart)
@@ -130,12 +129,10 @@ class ExpendituresContent(QWidget):
             chart.legend().setAlignment(Qt.AlignBottom)
             chart.legend().setVisible(True)
 
-
             self.combo_box.addItems([f"{k}: {v}BGN" for k, v in data.items()])
             self.combo_box.setMaxVisibleItems(1000)  # Set max visible items before scroll
             self.combo_box.setMinimumWidth(200)  # Adjust width as necessary
             return chart
-
 
         chart_pie = QPieSeries()
 
@@ -154,9 +151,9 @@ class ExpendituresContent(QWidget):
     def on_Monthly_clicked(self):
         token = prepare_token_for_request()
         try:
-            self.request_Category_Expenditures(token,interval='Month')
-            self.request_Type_Expenditures(token,interval='Month')
-            self.request_Name_Expenditures(token,interval='Month')
+            self.request_Category_Expenditures(token, interval='Month')
+            self.request_Type_Expenditures(token, interval='Month')
+            self.request_Name_Expenditures(token, interval='Month')
 
         except Exception as e:
             print(f"An error occurred: {str(e)}")
@@ -164,9 +161,9 @@ class ExpendituresContent(QWidget):
     def on_Weekly_clicked(self):
         token = prepare_token_for_request()
         try:
-            self.request_Category_Expenditures(token,interval='Week')
-            self.request_Type_Expenditures(token,interval='Week')
-            self.request_Name_Expenditures(token,interval='Week')
+            self.request_Category_Expenditures(token, interval='Week')
+            self.request_Type_Expenditures(token, interval='Week')
+            self.request_Name_Expenditures(token, interval='Week')
 
         except Exception as e:
             print(f"An error occurred: {str(e)}")
@@ -174,9 +171,9 @@ class ExpendituresContent(QWidget):
     def on_Quarter_clicked(self):
         token = prepare_token_for_request()
         try:
-            self.request_Category_Expenditures(token,interval='Quarter')
-            self.request_Type_Expenditures(token,interval='Quarter')
-            self.request_Name_Expenditures(token,interval='Quarter')
+            self.request_Category_Expenditures(token, interval='Quarter')
+            self.request_Type_Expenditures(token, interval='Quarter')
+            self.request_Name_Expenditures(token, interval='Quarter')
 
         except Exception as e:
             print(f"An error occurred: {str(e)}")
@@ -184,9 +181,9 @@ class ExpendituresContent(QWidget):
     def on_Year_clicked(self):
         token = prepare_token_for_request()
         try:
-            self.request_Category_Expenditures(token,interval='Year')
-            self.request_Type_Expenditures(token,interval='Year')
-            self.request_Name_Expenditures(token,interval='Year')
+            self.request_Category_Expenditures(token, interval='Year')
+            self.request_Type_Expenditures(token, interval='Year')
+            self.request_Name_Expenditures(token, interval='Year')
 
         except Exception as e:
             print(f"An error occurred: {str(e)}")

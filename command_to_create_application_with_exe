@@ -1,1 +1,1 @@
-pyinstaller main.py --onefile --windowed --name="FinanceTr" --icon=app_icon.ico
+pyinstaller main.py --onefile --windowed --name="FinanceTr" --icon=images/app_icon.ico --hidden-import=win32timezone

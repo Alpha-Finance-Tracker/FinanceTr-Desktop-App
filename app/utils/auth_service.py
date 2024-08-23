@@ -13,41 +13,8 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Constants from environment
-SECRET_KEY = os.getenv('SECRET_KEY')
-ALGORITHM = os.getenv('ALGORITHM')
-LOGIN_SERVICE = os.getenv('LOGIN_SERVICE')
-
-
-def verify_access_token(token):
-    if not token:
-        return 'Invalid'
-
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        exp_time = datetime.fromtimestamp(payload.get('exp'))
-        if exp_time > datetime.now():
-            return token
-        else:
-            return 'Expired'
-    except JWTError:
-        return 'Invalid'
-
-
-def verify_refresh_token(token):
-    if not token:
-        return 'Invalid'
-
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        exp_time = datetime.fromtimestamp(payload.get('exp'))
-        time_remaining = exp_time - datetime.now()
-        if time_remaining.total_seconds() > 172800:  # 2 days in seconds
-            return token
-        else:
-            return 'Expires'
-    except JWTError:
-        return 'Invalid'
+LOGIN_SERVICE='http://127.0.0.1:8000'
+FINANCE_TR_SERVICE='http://127.0.0.1:8001'
 
 
 def save_token(token, target_name):
@@ -64,7 +31,7 @@ def save_token(token, target_name):
         logger.error(f"Failed to save token '{target_name}': {e}")
 
 
-def delete_token(target_name):
+async def delete_token(target_name):
     try:
         win32cred.CredDelete(target_name, win32cred.CRED_TYPE_GENERIC)
         logger.info(f"Token '{target_name}' deleted successfully.")
@@ -84,34 +51,23 @@ def retrieve_token(target_name):
 
 
 def prepare_token_for_request():
-    retrieved_token = retrieve_token('FinanceTr_Access_token')
-    access_token_validity = verify_access_token(retrieved_token)
+    access_token = retrieve_token('FinanceTr_Access_token')
+    verification_response = requests.get(f"{LOGIN_SERVICE}/'verify_access_token",headers={'Authorization': f'Bearer {access_token}'})
 
-    if access_token_validity != 'Invalid':
-        return retrieved_token
+    if verification_response.status_code != 401:
+        return access_token
+
     else:
         refresh_token = retrieve_token('FinanceTr_Refresh_token')
-        refresh_token_validity = verify_refresh_token(refresh_token)
 
-        if refresh_token_validity == 'Expires':
-            new_refresh_token = refresh_refresh_token(refresh_token)
+        access_token_response =  requests.get(f"{LOGIN_SERVICE}/refresh_access_token",headers={'Authorization': f'Bearer {refresh_token}'})
+        new_access_token = access_token_response.json()['token']
+
+        if access_token_response.json()['Validity'] != 'Expires':
+            save_token(new_access_token,'FinanceTr_Access_token')
+            return new_access_token
         else:
-            new_refresh_token = refresh_token
-        new_access_token = refresh_access_token(new_refresh_token)
-        return new_access_token.json()
-
-
-def refresh_access_token(token):
-    headers = {'Authorization': f'Bearer {token}'}
-    new_token = requests.get(f"{LOGIN_SERVICE}/refresh_access_token", headers=headers)
-
-    save_token(new_token.json(), 'FinanceTr_Access_token')
-    return new_token
-
-
-def refresh_refresh_token(token):
-    headers = {'Authorization': f'Bearer {token}'}
-    new_token = requests.get(f"{LOGIN_SERVICE}/refresh_refresh_token", headers=headers)
-
-    save_token(new_token.json(), 'FinanceTr_Refresh_token')
-    return new_token
+            refresh_token_response = requests.get(f"{LOGIN_SERVICE}/refresh_refresh_token",headers={'Authorization': f'Bearer {refresh_token}'})
+            refresh_token = refresh_token_response.json()
+            save_token(refresh_token, 'FinanceTr_Refresh_token')
+            return new_access_token
