@@ -33,7 +33,6 @@ class LoginWidget(QWidget):
         self.password_label = QLabel("Password:", self.overlay_widget)
         self.login_button = QPushButton("Login", self.overlay_widget)
 
-
         self.username_input = QLineEdit(self.overlay_widget)
         self.username_label.setStyleSheet("color: #ADD8E6;")
         self.username_input.setStyleSheet("color: #ADD8E6;")
@@ -45,10 +44,8 @@ class LoginWidget(QWidget):
         self.password_input.setFixedWidth(200)  # Set fixed width for password input
         self.password_input.setEchoMode(QLineEdit.Password)  # Hide password characters
 
-
         self.login_button = QPushButton("Login", self.overlay_widget)
         self.login_button.setStyleSheet("color: #ADD8E6;")
-
 
         # Add widgets to the overlay layout
         self.overlay_layout.addSpacerItem(
@@ -94,12 +91,11 @@ class LoginWidget(QWidget):
         try:
             result = requests.post(f"{login_service}/login", data=data)
             if result.status_code == 200:
-                save_token(result.json()['access_token'],'FinanceTr_Access_token')
-                save_token(result.json()['refresh_token'],'FinanceTr_Refresh_token')
+                save_token(result.json()['access_token'], 'FinanceTr_Access_token')
+                save_token(result.json()['refresh_token'], 'FinanceTr_Refresh_token')
                 self.logged = True
                 self.close()
             else:
                 QMessageBox.warning(self, "Login", "Invalid username or password.")
         except requests.RequestException as e:
             QMessageBox.critical(self, "Login", f"An error occurred: {e}")
-

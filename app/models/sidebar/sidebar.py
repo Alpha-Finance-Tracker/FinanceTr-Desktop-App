@@ -1,21 +1,23 @@
 from PySide6.QtCore import QSize
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import  QWidget, QVBoxLayout, QPushButton, QFrame
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QFrame
+
+
 class Sidebar(QWidget):
     def __init__(self, content_area):
         super().__init__()
         self.content_area = content_area
+        self.sidebar_frame = QFrame()
         self.init_ui()
 
     def init_ui(self):
         layout = QVBoxLayout()
 
-        self.sidebar_frame = QFrame()
         self.sidebar_frame.setStyleSheet("background-color: #f0f0f0; border: none")
         frame_layout = QVBoxLayout(self.sidebar_frame)
 
         buttons = [
-            ('images/sidebar/home.png',self.home_on_click),
+            ('images/sidebar/home.png', self.home_on_click),
             ("images/sidebar/analytics.PNG", self.expenditures_on_click),
             ("images/sidebar/financeTr.png", self.financeTR_on_click),
             ("images/sidebar/kaufland_logo.png", self.shopping_receipts_on_click),

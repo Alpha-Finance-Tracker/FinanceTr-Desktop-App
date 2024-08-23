@@ -14,7 +14,6 @@ class Dashboard(QMainWindow):
         self.setWindowIcon(QIcon('images/app_icon.png'))
         self.resize(1000, 800)
 
-
         # Central widget and grid layout
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)

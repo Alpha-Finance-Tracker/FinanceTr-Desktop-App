@@ -1,5 +1,4 @@
-from PySide6.QtWidgets import QStackedWidget, QVBoxLayout, QWidget, QFormLayout, QLineEdit, QDateEdit, QPushButton
-from PySide6.QtCharts import QChartView, QChart
+from PySide6.QtWidgets import QStackedWidget
 
 from app.models.content.content_components.Expenditures_content import ExpendituresContent
 from app.models.content.content_components.FinanceTr_content import FinanceTrContent
@@ -17,13 +16,11 @@ class Content(QStackedWidget):
         self.kaufland_receipts_content = KauflandReceiptsContent()
         self.lidl_receipts_content = LidlReceiptsContent()
 
-
         self.addWidget(self.expenditures_content)
         self.addWidget(self.finance_tr_content)
         self.addWidget(self.home_content)
         self.addWidget(self.kaufland_receipts_content)
         self.addWidget(self.lidl_receipts_content)
-
 
     def show_expenditures(self):
         self.expenditures_content.expenditures_handler()

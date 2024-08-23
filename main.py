@@ -3,26 +3,18 @@ import sys
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 
-
 from app.models.dashboard.Dashboard import Dashboard
 from app.models.login.login_model import LoginWidget
-from app.utils.auth_service import retrieve_token, check_if_login_is_needed
+from app.utils.auth_service import check_if_login_is_needed
 
 app = QApplication(sys.argv)
 app.setWindowIcon(QIcon("images/app_icon.png"))
-
-# import sys
-#
-# # Redirect stdout and stderr to files
-# sys.stdout = open('output.log', 'w')
-# sys.stderr = open('errors.log', 'w')
-
 
 
 def start_app():
     check = check_if_login_is_needed()
 
-    if check == False:
+    if not check:
         main_window = Dashboard()
         main_window.show()
         app.exec()
@@ -31,12 +23,10 @@ def start_app():
         login_widget.show()
         app.exec()
 
-        if login_widget.logged == True:
+        if login_widget.logged:
             main_window = Dashboard()
             main_window.show()
             app.exec()
-
-
 
 
 start_app()

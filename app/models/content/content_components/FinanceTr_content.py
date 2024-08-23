@@ -1,25 +1,20 @@
-import os
-from PySide6.QtWidgets import QStackedWidget, QWidget, QVBoxLayout, QFormLayout, QLineEdit, QCalendarWidget, QPushButton, \
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QFormLayout, QLineEdit, QCalendarWidget, \
+    QPushButton, \
     QHBoxLayout, QMessageBox, QLabel
 from PySide6.QtCore import QDate, QSize
 from PySide6.QtGui import QIcon
 import requests
 from dotenv import load_dotenv
 
-from app.utils.auth_service import retrieve_token, prepare_token_for_request
+from app.utils.auth_service import prepare_token_for_request
 
 load_dotenv()
-finance_service = os.getenv('FINANCE_TR_SERVICE')
+finance_service = 'http://127.0.0.1:8001'
+
 
 class FinanceTrContent(QWidget):
     def __init__(self):
         super().__init__()
-        self.init_ui()
-
-    def init_ui(self):
-        layout = QVBoxLayout()
-        form_layout = QFormLayout()
-
         self.name_input = QLineEdit()
         self.price_input = QLineEdit()
 
@@ -34,14 +29,20 @@ class FinanceTrContent(QWidget):
 
         self.category_buttons = {}
         self.type_buttons = {}
+        self.selected_type = None
+        self.selected_category = None
+        self.type_layout = QHBoxLayout()
+        self.init_ui()
 
+    def init_ui(self):
+        layout = QVBoxLayout()
+        form_layout = QFormLayout()
         self.add_category_button('Food', 'images/categories/food.png')
         self.add_category_button('Transport', 'images/categories/transportation.png')
         self.add_category_button('Health', 'images/categories/health.png')
         self.add_category_button('Entertainment', 'images/categories/entertainment.png')
         self.add_category_button('Home', 'images/categories/home.jpg')
         self.add_category_button('Sport', 'images/categories/sport.png')
-
 
         self.add_type_button('Animal', 'images/types/food/animal.jpg', categories=['Food'])
         self.add_type_button('Dairy', 'images/types/food/dairy.png', categories=['Food'])
@@ -65,7 +66,6 @@ class FinanceTrContent(QWidget):
         form_layout.addRow(category_layout)
 
         # Adding Type buttons
-        self.type_layout = QHBoxLayout()
         self.type_layout.addWidget(self.type_label)
         form_layout.addRow(self.type_layout)
 
@@ -130,7 +130,7 @@ class FinanceTrContent(QWidget):
             'date': self.date_input.selectedDate().toString('dd.MM.yyyy')
         }
 
-        update_response = requests.put(update_url,headers=headers,params=data)
+        update_response = requests.put(update_url, headers=headers, params=data)
         if update_response.status_code == 200:
             self.name_input.clear()
             self.price_input.clear()

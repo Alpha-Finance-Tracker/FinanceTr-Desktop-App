@@ -1,25 +1,20 @@
 from PySide6.QtCharts import QChartView
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QComboBox
-import os
-
 import requests
 from PySide6.QtCharts import QChart, QPieSeries
 from PySide6.QtCore import Qt
 from dotenv import load_dotenv
 
-from app.utils.auth_service import  prepare_token_for_request
+from app.utils.auth_service import prepare_token_for_request
 
 load_dotenv()
-finance_service = os.getenv('FINANCE_TR_SERVICE')
+
+finance_service = 'http://127.0.0.1:8001'
 
 
 class ExpendituresContent(QWidget):
     def __init__(self):
         super().__init__()
-        self.init_ui()
-
-    def init_ui(self):
-        layout = QVBoxLayout()
         self.Monthly = QPushButton("Monthly")
         self.Weekly = QPushButton("Weekly")
         self.Quarter = QPushButton("Quarter")
@@ -34,7 +29,10 @@ class ExpendituresContent(QWidget):
         self.Weekly.clicked.connect(self.on_Weekly_clicked)
         self.Quarter.clicked.connect(self.on_Quarter_clicked)
         self.Year.clicked.connect(self.on_Year_clicked)
+        self.init_ui()
 
+    def init_ui(self):
+        layout = QVBoxLayout()
         charts_layout = QVBoxLayout()
         charts_layout.addWidget(self.category_chart)
         charts_layout.addWidget(self.type_chart)
