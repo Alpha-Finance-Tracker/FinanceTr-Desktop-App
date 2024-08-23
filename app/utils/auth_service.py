@@ -52,9 +52,9 @@ def retrieve_token(target_name):
 
 def prepare_token_for_request():
     access_token = retrieve_token('FinanceTr_Access_token')
-    verification_response = requests.get(f"{LOGIN_SERVICE}/'verify_access_token",headers={'Authorization': f'Bearer {access_token}'})
+    verification_response = requests.get(f"{LOGIN_SERVICE}/verify_access_token",headers={'Authorization': f'Bearer {access_token}'})
 
-    if verification_response.status_code != 401:
+    if verification_response.status_code == 200:
         return access_token
 
     else:
@@ -71,3 +71,9 @@ def prepare_token_for_request():
             refresh_token = refresh_token_response.json()
             save_token(refresh_token, 'FinanceTr_Refresh_token')
             return new_access_token
+
+def check_if_login_is_needed():
+    refresh_token = retrieve_token('FinanceTr_Refresh_token')
+    response =  requests.get(f"{LOGIN_SERVICE}/verify_refresh_token",headers={'Authorization': f'Bearer {refresh_token}'})
+    if response.json()['Validity'] == 'Valid':
+        return False
