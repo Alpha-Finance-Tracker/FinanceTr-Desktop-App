@@ -65,7 +65,6 @@ class ExpendituresContent(QWidget):
             categories_response = requests.get(categories_url, params=data, headers=headers)
             if categories_response.status_code == 200:
                 categories_chart = self.expenditures_pie_chart(categories_response.json(), 'By Category')
-                print(categories_response.json())
                 self.setCategoryExpenditureContent(categories_chart)
             else:
                 print(

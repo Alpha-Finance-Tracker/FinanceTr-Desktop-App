@@ -14,16 +14,16 @@ finance_service = 'http://127.0.0.1:8001'
 class LidlReceiptsContent(QWidget):
     def __init__(self):
         super().__init__()
-        self.init_ui()
         self.layout = QVBoxLayout(self)
-        self.label = QLabel("No file selected", self)
         self.date_input = QCalendarWidget()
+        self.label = QLabel("No file selected", self)
         self.upload_button = QPushButton("Upload Receipt", self)
         self.submit_button = QPushButton("Submit", self)
         self.loading_label = QLabel(self)
         self.loading_movie = QMovie("images/gree-loader.gif")
         self.file_name = None
 
+        self.init_ui()
     def init_ui(self):
 
         self.date_input.setGridVisible(True)
