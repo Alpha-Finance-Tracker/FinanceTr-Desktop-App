@@ -23,7 +23,7 @@ class Content(QStackedWidget):
         self.addWidget(self.lidl_receipts_content)
 
     def show_expenditures(self):
-        self.expenditures_content.expenditures_handler()
+        self.expenditures_content.update_expenditures('Total')
         self.setCurrentIndex(0)
 
     def show_financeTR(self):
