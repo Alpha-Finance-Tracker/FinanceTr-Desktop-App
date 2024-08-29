@@ -1,5 +1,4 @@
 pyside6
 python-dotenv
 requests
-python-jose
 pywin32
