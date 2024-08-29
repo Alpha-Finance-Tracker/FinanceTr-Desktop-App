@@ -1,9 +1,5 @@
 pyside6
-uvicorn
-fastapi
-starlette
 python-dotenv
 requests
 python-jose
 pywin32
-httpx
