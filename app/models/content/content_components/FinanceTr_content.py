@@ -64,7 +64,6 @@ class FinanceTrContent(QWidget):
             category_layout.addWidget(button)
         form_layout.addRow(category_layout)
 
-
         self.type_layout.addWidget(self.type_label)
         form_layout.addRow(self.type_layout)
 

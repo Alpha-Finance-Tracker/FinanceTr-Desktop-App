@@ -1,46 +1,43 @@
 from PySide6.QtWidgets import QStackedWidget
-
 from app.models.content.content_components.Expenditures_content import ExpendituresContent
 from app.models.content.content_components.FinanceTr_content import FinanceTrContent
 from app.models.content.content_components.Home_content import Home
 from app.models.content.content_components.kaufland_receipt_content import KauflandReceiptsContent
 from app.models.content.content_components.lidl_receipt_content import LidlReceiptsContent
 
-
 class Content(QStackedWidget):
+    CONTENT = {
+        "expenditures": ExpendituresContent,
+        "finance_tr": FinanceTrContent,
+        "home": Home,
+        "kaufland_receipts": KauflandReceiptsContent,
+        "lidl_receipts": LidlReceiptsContent
+    }
+
     def __init__(self):
         super().__init__()
-        self.home_content = Home()
-        self.finance_tr_content = FinanceTrContent()
-        self.expenditures_content = ExpendituresContent()
-        self.kaufland_receipts_content = KauflandReceiptsContent()
-        self.lidl_receipts_content = LidlReceiptsContent()
+        self.content = self.create_content_pages()
+        self.setup_content()
 
-        self.addWidget(self.expenditures_content)
-        self.addWidget(self.finance_tr_content)
-        self.addWidget(self.home_content)
-        self.addWidget(self.kaufland_receipts_content)
-        self.addWidget(self.lidl_receipts_content)
+    def create_content_pages(self):
+        return {key: cls() for key, cls in self.CONTENT.items()}
+
+    def setup_content(self):
+        for section in self.content.values():
+            self.addWidget(section)
 
     def show_expenditures(self):
-        self.expenditures_content.update_expenditures('Total')
-        self.setCurrentIndex(0)
+        self.show_page("expenditures")
+        self.content["expenditures"].update_expenditures('Total')
 
     def show_financeTR(self):
-        self.setCurrentIndex(1)
+        self.show_page("finance_tr")
 
     def show_home(self):
-        self.setCurrentIndex(2)
+        self.show_page("home")
 
     def show_receipt_menu(self):
-        self.setCurrentIndex(3)
+        self.show_page("kaufland_receipts")
 
-    #
-    #     def show_settings(self):
-    #         self.content_area.setCurrentIndex(2)
-    #
-    #     def show_profile(self):
-    #         self.content_area.setCurrentIndex(3)
-    #
-    #     def show_logout(self):
-    #         self.content_area.setCurrentIndex(4)
+    def show_page(self, page_key):
+        self.setCurrentWidget(self.content[page_key])

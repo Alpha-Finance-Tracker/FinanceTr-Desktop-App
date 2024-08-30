@@ -2,47 +2,50 @@ from PySide6.QtCore import QSize
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QFrame
 
-
 class Sidebar(QWidget):
+    ICON_SIZE = QSize(32, 32)
+    STYLE_SHEET = "background-color: #f0f0f0; border: none"
+    BUTTONS = [
+        ('images/sidebar/home.png', 'home'),
+        ('images/sidebar/analytics.PNG', 'expenditures'),
+        ('images/sidebar/financeTr.png', 'finance'),
+        ('images/sidebar/kaufland_logo.png', 'kaufland'),
+        ('images/sidebar/lidl_logo.png', 'lidl'),
+    ]
+
     def __init__(self, content_area):
         super().__init__()
         self.content_area = content_area
-        self.sidebar_frame = QFrame()
         self.init_ui()
 
     def init_ui(self):
         layout = QVBoxLayout()
+        sidebar_frame = QFrame()
+        sidebar_frame.setStyleSheet(self.STYLE_SHEET)
+        frame_layout = QVBoxLayout(sidebar_frame)
 
-        self.sidebar_frame.setStyleSheet("background-color: #f0f0f0; border: none")
-        frame_layout = QVBoxLayout(self.sidebar_frame)
-
-        buttons = [
-            ('images/sidebar/home.png', self.home_on_click),
-            ("images/sidebar/analytics.PNG", self.expenditures_on_click),
-            ("images/sidebar/financeTr.png", self.financeTR_on_click),
-            ("images/sidebar/kaufland_logo.png", self.shopping_receipts_on_click),
-            ("images/sidebar/lidl_logo.png", self.shopping_receipts_on_click),
-            # ("Logout", None),
-        ]
-
-        for icon_path, handler in buttons:
-            button = QPushButton()
-            button.setIcon(QIcon(icon_path))
-            button.setIconSize(QSize(32, 32))
-            button.clicked.connect(handler)
+        for icon_path, action_key in self.BUTTONS:
+            button = self.create_button(icon_path, action_key)
             frame_layout.addWidget(button)
 
-        layout.addWidget(self.sidebar_frame)
+        layout.addWidget(sidebar_frame)
         self.setLayout(layout)
 
-    def home_on_click(self):
-        self.content_area.show_home()
+    def create_button(self, icon_path, action_key):
+        button = QPushButton()
+        button.setIcon(QIcon(icon_path))
+        button.setIconSize(self.ICON_SIZE)
+        button.clicked.connect(lambda: self.handle_click(action_key))
+        return button
 
-    def expenditures_on_click(self):
-        self.content_area.show_expenditures()
-
-    def financeTR_on_click(self):
-        self.content_area.show_financeTR()
-
-    def shopping_receipts_on_click(self):
-        self.content_area.show_receipt_menu()
+    def handle_click(self, action_key):
+        actions = {
+            'home': self.content_area.show_home,
+            'expenditures': self.content_area.show_expenditures,
+            'finance': self.content_area.show_financeTR,
+            'kaufland': self.content_area.show_receipt_menu,
+            'lidl': self.content_area.show_receipt_menu,
+        }
+        action = actions.get(action_key)
+        if action:
+            action()

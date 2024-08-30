@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QComboBox
 
 from concurrent.futures import ThreadPoolExecutor
 
-from app.models.charts import ChartService
+from app.models.charts.charts import ChartService
 from app.utils.auth_service import prepare_token_for_request
 
 
