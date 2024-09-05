@@ -9,8 +9,8 @@ from dotenv import load_dotenv
 
 from app.utils.auth_service import save_token
 
-load_dotenv()
-login_service = os.getenv('LOGIN_SERVICE')
+
+login_service = 'http://127.0.0.1:8000'
 
 
 class LoginWidget(QWidget):

@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QStackedWidget
 from app.models.content.content_components.Expenditures_content import ExpendituresContent
 from app.models.content.content_components.FinanceTr_content import FinanceTrContent
 from app.models.content.content_components.Home_content import Home
+from app.models.content.content_components.Stock_content import StockContent
 from app.models.content.content_components.kaufland_receipt_content import KauflandReceiptsContent
 from app.models.content.content_components.lidl_receipt_content import LidlReceiptsContent
 
@@ -11,7 +12,8 @@ class Content(QStackedWidget):
         "finance_tr": FinanceTrContent,
         "home": Home,
         "kaufland_receipts": KauflandReceiptsContent,
-        "lidl_receipts": LidlReceiptsContent
+        "lidl_receipts": LidlReceiptsContent,
+        # 'stock':StockContent,
     }
 
     def __init__(self):
@@ -38,6 +40,9 @@ class Content(QStackedWidget):
 
     def show_receipt_menu(self):
         self.show_page("kaufland_receipts")
+
+    def show_stock_menu(self):
+        self.show_page('stock')
 
     def show_page(self, page_key):
         self.setCurrentWidget(self.content[page_key])

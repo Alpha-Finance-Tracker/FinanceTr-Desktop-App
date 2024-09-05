@@ -10,11 +10,11 @@ class ChartService:
         self.token = token
         self.headers = {'Authorization': f'Bearer {token}'}
 
-    def request_expenditures(self, endpoint, interval):
-        url = f"{finance_service}/Finance_tracker/{endpoint}"
-        params = {'interval': interval}
+    def request_expenditures(self, data):
+        url = f"{finance_service}/Finance_tracker/view_expenditures"
+
         try:
-            response = requests.get(url, params=params, headers=self.headers)
+            response = requests.post(url, json=data, headers=self.headers)
             response.raise_for_status()
             return response.json()
         except requests.RequestException as e:

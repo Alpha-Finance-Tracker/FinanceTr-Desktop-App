@@ -49,11 +49,15 @@ class ExpendituresContent(QWidget):
         token = prepare_token_for_request()
         chart_service = ChartService(token)
 
-        # Run requests in parallel
+
+        category_data = {'interval':interval,'column_type':'category','category':'Optional'}
+        type_data = {'interval':interval,'column_type':'type','category':'Food'}
+        name_data = {'interval':interval,'column_type':'name','category':'Optional'}
+
         futures = {
-            'category': self.executor.submit(chart_service.request_expenditures, 'category_expenditures', interval),
-            'type': self.executor.submit(chart_service.request_expenditures, 'food_type_expenditures', interval),
-            'name': self.executor.submit(chart_service.request_expenditures, 'food_name_expenditures', interval),
+            'category': self.executor.submit(chart_service.request_expenditures, category_data),
+            'type': self.executor.submit(chart_service.request_expenditures, type_data),
+            'name': self.executor.submit(chart_service.request_expenditures, name_data),
         }
 
         for key, future in futures.items():
