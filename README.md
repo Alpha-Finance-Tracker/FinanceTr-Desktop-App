@@ -1,3 +1,8 @@
+![Python Version](https://img.shields.io/badge/python-3.12%2B-blue)
+![Platform](https://img.shields.io/badge/platform-windows-blue)
+
+
+
 Download the App https://drive.google.com/drive/folders/18huhLfpxU_VEmJzkd0kpXBy49ZQxqWDo?usp=sharing
 
 
