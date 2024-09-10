@@ -1,9 +1,6 @@
 from PySide6.QtCharts import QChartView
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QComboBox
-
-from concurrent.futures import ThreadPoolExecutor
-
-from app.models.charts.charts import ChartService
+from app.models.data_streams.expenditures_ds import ExpendituresDataStream
 from app.utils.auth_service import prepare_token_for_request
 
 
@@ -19,9 +16,6 @@ class ExpendituresContent(QWidget):
         self.type_chart = QChartView()
         self.name_chart = QChartView()
         self.combo_box = QComboBox()
-
-        self.executor = ThreadPoolExecutor(max_workers=3)
-
         self.init_ui()
         self.connect_signals()
 
@@ -47,27 +41,12 @@ class ExpendituresContent(QWidget):
 
     def update_expenditures(self, interval):
         token = prepare_token_for_request()
-        chart_service = ChartService(token)
 
+        service = ExpendituresDataStream(token,
+                                         self.category_chart,
+                                         self.type_chart,
+                                         self.name_chart,
+                                         self.combo_box)
 
-        category_data = {'interval':interval,'column_type':'category','category':'Optional'}
-        type_data = {'interval':interval,'column_type':'type','category':'Food'}
-        name_data = {'interval':interval,'column_type':'name','category':'Optional'}
-
-        futures = {
-            'category': self.executor.submit(chart_service.request_expenditures, category_data),
-            'type': self.executor.submit(chart_service.request_expenditures, type_data),
-            'name': self.executor.submit(chart_service.request_expenditures, name_data),
-        }
-
-        for key, future in futures.items():
-            data = future.result()
-            if data:
-                chart = chart_service.create_pie_chart(data, f'By {key.capitalize()}')
-                if key == 'category':
-                    self.category_chart.setChart(chart)
-                elif key == 'type':
-                    self.type_chart.setChart(chart)
-                elif key == 'name':
-                    self.name_chart.setChart(chart)
-                    chart_service.update_combo_box(self.combo_box, data)
+        futures = service.futures(interval)
+        service.display(futures)

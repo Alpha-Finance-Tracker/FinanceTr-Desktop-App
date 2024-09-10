@@ -11,7 +11,6 @@ class Sidebar(QWidget):
         ('images/sidebar/financeTr.png', 'finance'),
         ('images/sidebar/kaufland_logo.png', 'kaufland'),
         ('images/sidebar/lidl_logo.png', 'lidl'),
-        ('images/sidebar/stock.jpg', 'stock')
     ]
 
     def __init__(self, content_area):

@@ -6,21 +6,6 @@ import logging
 finance_service = 'http://127.0.0.1:8001'
 
 class ChartService:
-    def __init__(self, token):
-        self.token = token
-        self.headers = {'Authorization': f'Bearer {token}'}
-
-    def request_expenditures(self, data):
-        url = f"{finance_service}/Finance_tracker/view_expenditures"
-
-        try:
-            response = requests.post(url, json=data, headers=self.headers)
-            response.raise_for_status()
-            return response.json()
-        except requests.RequestException as e:
-            logging.error(f"Request failed for {url}: {e}")
-            return None
-
     def create_pie_chart(self, data, title, combo_box=None):
         chart_pie = QPieSeries()
         for k, v in data.items():

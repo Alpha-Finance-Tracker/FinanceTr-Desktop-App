@@ -122,13 +122,13 @@ class FinanceTrContent(QWidget):
         headers = {'Authorization': f'Bearer {token}'}
         data = {
             'name': self.name_input.text(),
-            'price': self.price_input.text(),
+            'price': self.price_input.text().replace(',', '.'),
             'category': self.selected_category,
-            'type': self.selected_type,
+            'expenditure_type': self.selected_type,
             'date': self.date_input.selectedDate().toString('dd.MM.yyyy')
         }
 
-        update_response = requests.put(update_url, headers=headers, params=data)
+        update_response = requests.post(update_url, headers=headers, json=data)
         if update_response.status_code == 200:
             self.name_input.clear()
             self.price_input.clear()
