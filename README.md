@@ -1,4 +1,4 @@
-# Finance Tracker App
+# Finance Tracker Desktop App
 
 ![Python Version](https://img.shields.io/badge/python-3.12%2B-blue)
 ![Platform](https://img.shields.io/badge/platform-windows-blue)
