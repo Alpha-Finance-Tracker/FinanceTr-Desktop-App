@@ -9,14 +9,15 @@ finance_service = 'http://127.0.0.1:8001'
 class ExpendituresDataStream(DataStream):
 
     def __init__(self,token,category_chart,type_chart,name_chart,combo_box):
+        self.token = token
         self.category_chart = category_chart
         self.type_chart = type_chart
         self.name_chart = name_chart
         self.combo_box = combo_box
 
-        self.token = token
         self.headers = {'Authorization': f'Bearer {self.token}'}
         self.url = f"{finance_service}/Finance_tracker/view_expenditures"
+
         self.executor = ThreadPoolExecutor(max_workers=3)
 
     def request(self,data):
