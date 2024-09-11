@@ -2,7 +2,6 @@ from PySide6.QtWidgets import QStackedWidget
 from app.models.content.content_components.Expenditures_content import ExpendituresContent
 from app.models.content.content_components.FinanceTr_content import FinanceTrContent
 from app.models.content.content_components.Home_content import Home
-from app.models.content.content_components.Stock_content import StockContent
 from app.models.content.content_components.kaufland_receipt_content import KauflandReceiptsContent
 from app.models.content.content_components.lidl_receipt_content import LidlReceiptsContent
 
