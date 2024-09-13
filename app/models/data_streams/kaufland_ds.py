@@ -25,7 +25,7 @@ class KauflandDs(DataStream):
             with open(self.file_name, 'rb') as file:
                 files = {'image': (os.path.basename(self.file_name), file)}
 
-                response = requests.post(self.url, headers=self.headers, files=files, params=data['date'])
+                response = requests.post(self.url, headers=self.headers, files=files, params={'date':data['date']})
                 response.raise_for_status()
                 return response
 
