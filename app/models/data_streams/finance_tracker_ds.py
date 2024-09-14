@@ -17,7 +17,4 @@ class FinanceTrackerDs(DataStream):
         return requests.post(self.url, headers=self.headers, json=data)
 
     def display(self,data):
-        if data.status_code == 200:
-            return True
-        else:
-            return False
+        return True if data.status_code == 200 else False
