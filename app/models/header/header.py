@@ -1,13 +1,15 @@
 from PySide6.QtWidgets import QLabel, QWidget, QVBoxLayout
 
+from app.models.user_interfaces.header_user_interface import HeaderUserInterface
+
+
 class Header(QWidget):
     def __init__(self):
         super().__init__()
-        self.label = QLabel()
+        self.ui = HeaderUserInterface()
         self.init_ui()
 
     def init_ui(self):
-        layout = QVBoxLayout()
-        self.label.setStyleSheet("background-color: lightgreen; font-size: 18px; padding: 10px;")
-        layout.addWidget(self.label)
+        layout =  self.ui.init_ui()
         self.setLayout(layout)
+
