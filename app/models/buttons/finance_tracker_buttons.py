@@ -75,3 +75,17 @@ class FinanceTrackerButtons(QWidget):
         self.add_type_button('Communications', 'images/types/home/communications.jpg', categories=['Home'])
         self.add_type_button('Electricity', 'images/types/home/electricity.png', categories=['Home'])
         self.add_type_button('Water', 'images/types/home/water.png', categories=['Home'])
+
+
+        self.add_type_button('Transport', 'images/categories/transportation.png', categories=['Transport'])
+
+        self.add_type_button('Health', 'images/categories/health.png', categories=['Health'])
+
+        self.add_type_button('Entertainment', 'images/categories/entertainment.png', categories=['Entertainment'])
+
+        self.add_type_button('Sport', 'images/categories/sport.png', categories=['Sport'])
+
+
+
+
+

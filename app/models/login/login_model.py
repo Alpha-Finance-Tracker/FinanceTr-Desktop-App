@@ -5,18 +5,16 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt
 import os
 import requests
-from dotenv import load_dotenv
 
-from app.utils.auth_service import save_token
-
+from app.models.data_streams.login_ds import LoginDatastream
 
 login_service = 'http://127.0.0.1:8000'
-
 
 class LoginWidget(QWidget):
     def __init__(self):
         super().__init__()
         self.logged = None
+        self.login_service = LoginDatastream()
         self.setWindowTitle("Login")
 
         self.background_label = QLabel(self)
@@ -83,15 +81,12 @@ class LoginWidget(QWidget):
         self.overlay_widget.resize(self.size())
 
     def login(self):
-        username = self.username_input.text()
-        password = self.password_input.text()
 
-        data = {'username': username, 'password': password}
+        data = {'username': self.username_input.text(), 'password': self.password_input.text()}
+
         try:
-            result = requests.post(f"{login_service}/login", data=data)
-            if result.status_code == 200:
-                save_token(result.json()['access_token'], 'FinanceTr_Access_token')
-                save_token(result.json()['refresh_token'], 'FinanceTr_Refresh_token')
+            response = self.login_service.request(data)
+            if self.login_service.display(response):
                 self.logged = True
                 self.close()
             else:
