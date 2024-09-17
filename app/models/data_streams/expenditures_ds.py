@@ -25,6 +25,7 @@ class ExpendituresDataStream(DataStream):
         try:
             response = requests.post(self.url, json=data, headers=self.headers)
             response.raise_for_status()
+            print(response.json())
             return response.json()
         except requests.RequestException as e:
             logging.error(f"Request failed for {self.url}: {e}")
@@ -35,6 +36,7 @@ class ExpendituresDataStream(DataStream):
 
         for key, future in data.items():
             data = future.result()
+            print(data)
             if data:
                 chart = chart_service.create_pie_chart(data, f'By {key.capitalize()}')
                 if key == 'category':
@@ -47,7 +49,7 @@ class ExpendituresDataStream(DataStream):
 
     def futures(self,interval):
         category_data = {'interval': interval, 'column_type': 'category', 'category': 'Optional'}
-        type_data = {'interval': interval, 'column_type': 'type', 'category': 'Food'}
+        type_data = {'interval': interval, 'column_type': 'expenditure_type', 'category': 'Food'}
         name_data = {'interval': interval, 'column_type': 'name', 'category': 'Optional'}
 
         futures = {

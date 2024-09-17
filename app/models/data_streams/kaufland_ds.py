@@ -34,8 +34,6 @@ class KauflandDs(DataStream):
 
     def display(self,data):
         if data:
-            return {'Upload Successful': data.status_code}
+            return f'Upload Successful: {data.status_code}'
         else:
-            return {'Upload Failed': data.status_code}
-
-
+            return f'Upload Failed: {data.status_code}'
